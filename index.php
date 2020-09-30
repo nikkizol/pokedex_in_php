@@ -33,11 +33,16 @@ $pokemonSpices = file_get_contents('https://pokeapi.co/api/v2/pokemon-species/'.
 $dataSpices = json_decode($pokemonSpices, true);
 //echo var_dump($dataSpices);
 $pokemonSpicesFrom = $dataSpices["evolves_from_species"]["url"];
-$dataSpicesFrom = json_decode($pokemonSpicesFrom, true);
+if (isset ($pokemonSpicesFrom)) {
+    $dataSpicesFrom = json_decode($pokemonSpicesFrom, true);
 //echo var_dump($pokemonSpicesFrom);
-$dataPrevEvo = file_get_contents("$pokemonSpicesFrom");
-$prevEvo = json_decode($dataPrevEvo, true);
-echo var_dump($prevEvo["name"]);
+    $dataPrevEvo = file_get_contents("$pokemonSpicesFrom");
+    $prevEvo = json_decode($dataPrevEvo, true);
+    echo var_dump($prevEvo["name"]);
+} else {
+
+}
+
 ?>
 
 <html>
@@ -49,13 +54,29 @@ echo var_dump($prevEvo["name"]);
 </form>
 <ol class="Pokemon">
     <h4 class="title">
-        <p class="name"><?php echo  $name;?></p>
-        <p class="id"><?php echo  $id;?></p>
+        <p class="name"><?php if (isset ($name)) {
+                echo $name;
+            } else {
+                $name = "";
+            }?></p>
+        <p class="id"><?php if (isset ($id)) {
+                echo $id;
+            } else {
+                $id = "";
+            }?></p>
     </h4>
-    <img class="img" src="<?php echo  $img;?>">
+    <img class="img" src="<?php if (isset ($img)) {
+        echo $img;
+    } else {
+        $img = "";
+    }?>">
     <p class="moves"></p>
     <p id="moves"><?php echo  implode(" ",$moves); ?></p>
-    <p class="evo"><?php echo $prevEvo["name"]; ?></p>
+    <p class="evo"><?php if (isset ($prevEvo["name"])) {
+            echo "prev evo: ", $prevEvo["name"];
+        } else {
+            echo "prev evo: no prev evo";
+        }?></p>
     <p class="id_prev"></p>
     <img class="img_prev" src="">
 </ol>
