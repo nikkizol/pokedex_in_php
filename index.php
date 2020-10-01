@@ -7,29 +7,28 @@ error_reporting(E_ALL);
 
 
 if (isset ($_GET["name"])) {
-    $idName = $_GET["name"];
-    if (@file_get_contents("https://pokeapi.co/api/v2/pokemon/" . $idName) === FALSE) {
+    $idName = lcfirst($_GET["name"]);
+    if ($idName === FALSE) {
         echo "Please enter a correct name or id!!!";
-    } else {//checking if input is a pokemon
+    } else {
         $pokemon = @file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $idName);
         $data = json_decode($pokemon, true);
         if (!empty ($data['name'])) {
             $name = $data['name'];
             $id = $data['id'];
             $img = $data['sprites']["front_default"];
+
+//------------------------RANDOM MOVES------------------------
             $randArr = [];
             $moves = [];
-            $maxMove = 4;
-
-
             for ($x = 0; $x < 4; $x++) {
-                array_push($randArr, rand(0, count($data['moves'])));
+                array_push($randArr, rand(0, count($data['moves']) - 1));
             }
-//echo var_dump($randArr);
             for ($x = 0; $x < 4; $x++) {
                 array_push($moves, $data['moves'][$randArr[$x]]["move"]["name"]);
             }
             $uniqueMoves = array_unique($moves);
+
 
 //echo var_dump($moves);
             $pokemonSpices = @file_get_contents('https://pokeapi.co/api/v2/pokemon-species/' . $idName);
@@ -66,7 +65,9 @@ if (isset ($_GET["name"])) {
         }
     }
 }
+
 ?>
+<!--------------------------HTML-------------------------->
 
 <html>
 <body>
@@ -78,24 +79,19 @@ if (isset ($_GET["name"])) {
     <h4 class="title">
         <p class="name"><?php if (isset ($name)) {
                 echo "Name: ", ucfirst($name);
-            } else {
-
             } ?></p>
 
         <p class="id"><?php if (isset ($id)) {
                 echo "Id#: ", $id;
-            } else {
             } ?></p>
     </h4>
 
     <img class="img" src="<?php if (isset ($img)) {
         echo $img;
-    } else {
     } ?>">
     <p class="moves"></p>
     <p id="moves"><?php if (isset ($uniqueMoves)) {
-            echo "Moves: ", implode(" ", $uniqueMoves);
-        } else {
+            echo "Moves: ", implode(", ", $uniqueMoves);
         } ?></p>
     <h4 class="evo"><?php if (isset ($namePrev)) {
             echo "Prev evo: ", ucfirst($namePrev);
@@ -104,7 +100,6 @@ if (isset ($_GET["name"])) {
         } ?></h4>
     <h4 class="id_prev"> <?php if (isset ($idPrev)) {
             echo "Id#: ", $idPrev;
-        } else {
         } ?></h4>
     <img class="img_prev" src="<?php if (isset ($imgPrev)) {
         echo $imgPrev;
