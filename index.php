@@ -15,7 +15,7 @@ if (isset ($_GET["name"])) {
         $img = $data['sprites']["front_default"];
         $randArr = [];
         $moves = [];
-
+        $maxMove = 4;
 
         for ($x = 0; $x < 4; $x++) {
             array_push($randArr, rand(0, count($data['moves'])));
@@ -64,7 +64,7 @@ if (isset ($_GET["name"])) {
 <ol class="Pokemon">
     <h4 class="title">
         <p class="name"><?php if (isset ($name)) {
-                echo $name;
+                echo ucfirst($name);
             } else {
                 $name = "";
             } ?></p>
@@ -85,16 +85,16 @@ if (isset ($_GET["name"])) {
         } else {
 
         } ?></p>
-    <p class="evo"><?php if (isset ($namePrev)) {
-            echo "prev evo: ", $namePrev;
+    <h4 class="evo"><?php if (isset ($namePrev)) {
+            echo "prev evo: ", ucfirst($namePrev);
         } else {
             echo "";
-        } ?></p>
-    <p class="id_prev"> <?php if (isset ($idPrev)) {
-            echo "ID#: ", $idPrev;
+        } ?></h4>
+    <h4 class="id_prev"> <?php if (isset ($idPrev)) {
+            echo "Id#: ", $idPrev;
         } else {
             echo "";
-        } ?></p>
+        } ?></h4>
     <img class="img_prev" src="<?php if (isset ($imgPrev)) {
         echo $imgPrev;
     } else {
