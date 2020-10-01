@@ -24,6 +24,7 @@ if (isset ($_GET["name"])) {
         for ($x = 0; $x < 4; $x++) {
             array_push($moves, $data['moves'][$randArr[$x]]["move"]["name"]);
         }
+        $uniqueMoves = array_unique($moves);
 //echo var_dump($moves);
         $pokemonSpices = @file_get_contents('https://pokeapi.co/api/v2/pokemon-species/' . $idName);
         $dataSpices = json_decode($pokemonSpices, true);
@@ -77,8 +78,8 @@ if (isset ($_GET["name"])) {
         $img = "";
     } ?>">
     <p class="moves"></p>
-    <p id="moves"><?php if (isset ($moves)) {
-            echo "moves: ", implode(" ", $moves);
+    <p id="moves"><?php if (isset ($uniqueMoves)) {
+            echo "moves: ", implode(" ", $uniqueMoves);
         } else {
 
         } ?></p>
