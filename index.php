@@ -5,28 +5,47 @@ ini_set('display_errors', "1");
 ini_set('display_startup_errors', "1");
 error_reporting(E_ALL);
 
+function getData($poke){
+    $pokemon = file_get_contents("https://pokeapi.co/api/v2/pokemon/" . $poke);
+    $data = json_decode($pokemon, true);
+    return $data;
+}
+function getName($poke){
+    return $namePok =  getData($poke)['name'];
+}
+
+function getImg($poke){
+    return $imgPok =  getData($poke)['sprites']["front_default"];
+}
+
+function getId($poke){
+    return $imgPok =  getData($poke)['id'];
+}
+
+
 
 if (isset ($_GET["name"])) {
-    $idName = $_GET["name"];
-    $pokemon = @file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $idName);
-    $data = json_decode($pokemon, true);
-    if ($data['name'] !== NULL) {
-        $name = $data['name'];
-        $img = $data['sprites']["front_default"];
+    $id_Name = $_GET["name"];
+
+
+//-----------------------RANDOM MOVES-----------------------
         $randArr = [];
         $moves = [];
         $maxMove = 4;
-
         for ($x = 0; $x < 4; $x++) {
-            array_push($randArr, rand(0, count($data['moves'])));
+            array_push($randArr, rand(0, count(getData($id_Name)['moves'])));
         }
-//echo var_dump($randArr);
         for ($x = 0; $x < 4; $x++) {
-            array_push($moves, $data['moves'][$randArr[$x]]["move"]["name"]);
+            array_push($moves, getData($id_Name)['moves'][$randArr[$x]]["move"]["name"]);
         }
         $uniqueMoves = array_unique($moves);
-//echo var_dump($moves);
-        $pokemonSpices = @file_get_contents('https://pokeapi.co/api/v2/pokemon-species/' . $idName);
+
+
+
+
+
+
+        $pokemonSpices = @file_get_contents('https://pokeapi.co/api/v2/pokemon-species/' . $id_Name);
         $dataSpices = json_decode($pokemonSpices, true);
 //echo var_dump($dataSpices);
         if ($dataSpices["evolves_from_species"] !== NULL) {
@@ -46,21 +65,25 @@ if (isset ($_GET["name"])) {
             }
             $namePrev = $prevEvo["name"];
         } else {
+        }
+        }
 //            $dataSpices["evolves_from_species"] = " ";
             $pokemonSpicesTo = $dataSpices["evolution_chain"]["url"];
             $dataSpicesTo = json_decode($pokemonSpicesTo, true);
             $dataNextEvo = @file_get_contents($pokemonSpicesTo);
             $nextEvo = json_decode($dataNextEvo, true);
-//            echo var_dump($nextEvo['chain']['evolves_to'][0]['species']['name']);
+            echo var_dump($nextEvo['chain']['evolves_to'][0]['species']['name']);
+    echo var_dump($nextEvo['chain']['evolves_to'][0]['evolves_to'][0]['species']['name']);
             $nameNextEvo = $nextEvo['chain']['evolves_to'][0]['species']['name'];
 
-        }
-    }
-}
+
+
+
 
 
 ?>
 
+<!--------------------------HTML-------------------------->
 <html>
 <body>
 
@@ -70,25 +93,25 @@ if (isset ($_GET["name"])) {
 </form>
 <ol class="Pokemon">
     <h4 class="title">
-        <p class="name"><?php if (isset ($name)) {
-                echo ucfirst($name);
+        <p class="name"><?php if (getName($id_Name)) {
+                echo ucfirst(getName($id_Name));
             } else {
-                $name = "";
+
             } ?></p>
-        <p class="id"><?php if (isset ($id)) {
-                echo $id;
+        <p class="id"><?php if (getId($id_Name)) {
+                echo getId($id_Name);
             } else {
-                $id = "";
+
             } ?></p>
     </h4>
-    <img class="img" src="<?php if (isset ($img)) {
-        echo $img;
+    <img class="img" src="<?php if (getImg($id_Name)) {
+        echo getImg($id_Name);
     } else {
-        $img = "";
+
     } ?>">
     <p class="moves"></p>
     <p id="moves"><?php if (isset ($uniqueMoves)) {
-            echo "moves: ", implode(" ", $uniqueMoves);
+            echo "Moves: ", implode(" ", $uniqueMoves);
         } else {
 
         } ?></p>
