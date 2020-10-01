@@ -46,7 +46,14 @@ if (isset ($_GET["name"])) {
             }
             $namePrev = $prevEvo["name"];
         } else {
-            $dataSpices["evolves_from_species"] = "";
+//            $dataSpices["evolves_from_species"] = " ";
+            $pokemonSpicesTo = $dataSpices["evolution_chain"]["url"];
+            $dataSpicesTo = json_decode($pokemonSpicesTo, true);
+            $dataNextEvo = @file_get_contents($pokemonSpicesTo);
+            $nextEvo = json_decode($dataNextEvo, true);
+//            echo var_dump($nextEvo['chain']['evolves_to'][0]['species']['name']);
+            $nameNextEvo = $nextEvo['chain']['evolves_to'][0]['species']['name'];
+
         }
     }
 }
@@ -87,18 +94,18 @@ if (isset ($_GET["name"])) {
         } ?></p>
     <h4 class="evo"><?php if (isset ($namePrev)) {
             echo "prev evo: ", ucfirst($namePrev);
-        } else {
-            echo "";
+        } else if (isset ($nameNextEvo)) {
+            echo "It's a baby, next evo is: ", ucfirst($nameNextEvo);
         } ?></h4>
     <h4 class="id_prev"> <?php if (isset ($idPrev)) {
             echo "Id#: ", $idPrev;
         } else {
-            echo "";
+
         } ?></h4>
     <img class="img_prev" src="<?php if (isset ($imgPrev)) {
         echo $imgPrev;
     } else {
-        echo "";
+
     } ?>">
 </ol>
 
