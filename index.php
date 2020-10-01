@@ -39,8 +39,10 @@ if (isset ($_GET["name"])) {
             $data2 = json_decode($prevImg, true);
             if ($data2['sprites'] !== NULL) {
                 $imgPrev = $data2['sprites']["front_default"];
+                $idPrev = $data2['id'];
             } else {
                 $imgPrev = "";
+                $idPrev = "";
             }
             $namePrev = $prevEvo["name"];
         } else {
@@ -88,7 +90,11 @@ if (isset ($_GET["name"])) {
         } else {
             echo "";
         } ?></p>
-    <p class="id_prev"></p>
+    <p class="id_prev"> <?php if (isset ($idPrev)) {
+            echo "ID#: ", $idPrev;
+        } else {
+            echo "";
+        } ?></p>
     <img class="img_prev" src="<?php if (isset ($imgPrev)) {
         echo $imgPrev;
     } else {
