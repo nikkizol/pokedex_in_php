@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 
 if (isset ($_GET["name"])) {
     $idName = lcfirst($_GET["name"]);
-    if ($idName === FALSE) {
+    if ($pokemon = @file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $idName) === FALSE) {
         echo "Please enter a correct name or id!!!";
     } else {
         $pokemon = @file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $idName);
@@ -56,10 +56,13 @@ if (isset ($_GET["name"])) {
                 $dataSpicesTo = json_decode($pokemonSpicesTo, true);
                 $dataNextEvo = @file_get_contents($pokemonSpicesTo);
                 $nextEvo = json_decode($dataNextEvo, true);
-                $nameNextEvo = $nextEvo['chain']['evolves_to'][0]['species']['name'];
-                $data3 = @file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $nameNextEvo);
-                $dataNext = json_decode($data3, true);
-                $imgForNext = $dataNext['sprites']["front_default"];
+                if (!empty($nameNextEvo = $nextEvo['chain']['evolves_to'])) {
+                    $nameNextEvo = $nextEvo['chain']['evolves_to'][0]['species']['name'];
+                    $data3 = @file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $nameNextEvo);
+                    $dataNext = json_decode($data3, true);
+                    $imgForNext = $dataNext['sprites']["front_default"];
+                }
+
 
             }
         }
@@ -95,8 +98,10 @@ if (isset ($_GET["name"])) {
         } ?></p>
     <h4 class="evo"><?php if (isset ($namePrev)) {
             echo "Prev evo: ", ucfirst($namePrev);
-        } else if (isset ($nameNextEvo)) {
+        } else if (!empty ($nameNextEvo)) {
             echo "It's a baby, next evo is: ", ucfirst($nameNextEvo);
+        } else {
+            echo "";
         } ?></h4>
     <h4 class="id_prev"> <?php if (isset ($idPrev)) {
             echo "Id#: ", $idPrev;
