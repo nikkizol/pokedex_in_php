@@ -12,15 +12,16 @@ if ($pokemons = @file_get_contents('https://pokeapi.co/api/v2/pokemon/?offset=0&
     $pokemons = @file_get_contents('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20');
     $data_pokemons = json_decode($pokemons, true);
     foreach ($data_pokemons as $value) {
-        var_dump($names = $value);
+//        var_dump($names = $value);
+        $names = $value;
     }
     foreach ($names as $value) {
         $dataEachPoke = @file_get_contents($value['url']);
         $allPoke = json_decode($dataEachPoke, true);
-        var_dump($allPoke['name']);
-        array_push($arrOfNames, $allPoke['name']);
+//        var_dump($allPoke['name']);
+        array_push($arrOfNames, $allPoke);
         }
-    var_dump($arrOfNames);
+//    var_dump($arrOfNames);
 
 
 

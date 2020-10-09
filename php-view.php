@@ -1,10 +1,50 @@
-<html>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pokedex</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/97e98690fe.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
 <body>
-<form action="index.php" method="POST">
-    Name or id: <input type="text" name="name"/>
-    <input type="submit"/>
-</form>
-<ol class="Pokemon">
+<h1>Pokemons</h1>
+<div class="container">
+    <div class="row">
+        <?php foreach ($arrOfNames as  $name): ?>
+        <div class="col-4">
+            <div class="card">
+                <img class="card-img-top" src="<?php echo $name['sprites']["front_default"];?>" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title"><?php echo ucfirst($name['name']) ?></h4>
+                    <p class="card-text">
+                        Some quick example text to build on the card title
+                        and make up the bulk of the card's content.
+                    </p>
+                    <a href="#!" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+
+
+<!--<h1>Pokemons</h1>-->
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        --><?php //foreach ($arrOfNames as  $name): ?>
+<!--            <div class="col-2">-->
+<!--                --><?php //echo ucfirst($name) ?>
+<!--            </div>-->
+<!--        --><?php //endforeach; ?>
+<!--    </div>-->
+<!--</div>-->
 
 
 
