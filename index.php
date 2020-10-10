@@ -20,8 +20,33 @@ if ($pokemons = @file_get_contents('https://pokeapi.co/api/v2/pokemon/?offset=0&
         $allPoke = json_decode($dataEachPoke, true);
 //        var_dump($allPoke['name']);
         array_push($arrOfNames, $allPoke);
-        }
+    }
 //    var_dump($arrOfNames);
+
+}
+
+//$lol = "";
+//if (isset($_GET['poke'])) {
+//if ($_GET['poke']) {
+//    if ($_GET['poke'] == '1') {
+//        $lol = "lol";
+//    } elseif ($_GET['poke'] == '0') {
+//        $lol = "lol1";
+//    }
+//}
+//}
+
+require 'php-view.php';
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -117,8 +142,3 @@ if ($pokemons = @file_get_contents('https://pokeapi.co/api/v2/pokemon/?offset=0&
 //
 //
 //            }
-
-}
-
-
-require 'php-view.php';

@@ -15,17 +15,15 @@
 <h1>Pokemons</h1>
 <div class="container">
     <div class="row">
-        <?php foreach ($arrOfNames as  $name): ?>
-        <div class="col-4">
-            <div class="card">
+        <?php foreach ($arrOfNames as $i =>  $name): ?>
+        <div class="col-3">
+            <div class="card mt-4">
                 <img class="card-img-top" src="<?php echo $name['sprites']["front_default"];?>" alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title"><?php echo ucfirst($name['name']) ?></h4>
                     <p class="card-text">
-                        Some quick example text to build on the card title
-                        and make up the bulk of the card's content.
                     </p>
-                    <a href="#!" class="btn btn-primary">Go somewhere</a>
+                    <a href="overview.php?poke=<?php echo $name['id'] ?>" type="submit" name="overview" class="btn btn-primary">Overview</a>
                 </div>
             </div>
         </div>
@@ -93,6 +91,5 @@
 //    } else if (isset ($imgForNext)) {
 //        echo $imgForNext;
 //    } ?><!--">-->
-</ol>
 </body>
 </html>
